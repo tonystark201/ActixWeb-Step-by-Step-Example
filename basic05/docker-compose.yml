@@ -1,0 +1,40 @@
+version: '3.0'
+
+services:
+
+  redis:
+    image: redis:5.0.0
+    container_name: redisdb
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      my_db:
+        ipv4_address: 172.10.0.5
+        
+  postgres:
+    image: postgres:latest
+    container_name: postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    ports:
+      - "15432:5432"
+    networks:
+      my_db:
+        ipv4_address: 172.10.0.6
+    restart: unless-stopped
+    
+volumes:
+  redis-data:
+  postgres-data:
+
+networks:
+  my_db:
+    ipam:
+      config:
+        - subnet: 172.10.0.0/16

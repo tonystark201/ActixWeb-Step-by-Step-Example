@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charSet="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta httpEquiv="X-UA-Compatiable" content="ie=edge"/>
+        <meta name="description" content="This is a simple to do app"/>
+        <title>ActixWeb</title>
+    </head>
+    <body>
+        <h1>Students</h1>
+        <input type="text" id="name" placeholder="Input the name">
+        <input type="text" id="age" placeholder="Input the age">
+        <button id="submit" value="Send">Create</button>
+    </body>
+    <script>
+        let createButton = document.getElementById("submit");
+        createButton.addEventListener("click", postAlert);
+
+        function postAlert() {
+            let nameInput = document.getElementById("name");
+            let ageInput = document.getElementById("age");
+            alert(nameInput.value.concat(ageInput.value));
+            nameInput.value = null;
+            ageInput.value = null;
+        }
+    </script>
+</html>
