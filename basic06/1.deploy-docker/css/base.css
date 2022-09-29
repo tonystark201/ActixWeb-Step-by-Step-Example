@@ -1,0 +1,32 @@
+body {
+    background-color: #d2d5db;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100vh;
+}
+@media(max-width: 600px) {
+    body {
+        padding: 1px;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+@media(min-width: 601px) and (max-width: 1200px) {
+    body {
+        padding: 1px;
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+    .mainContainer {
+        grid-column-start: 2;
+    }
+}
+@media(min-width: 1201px) {
+    body {
+        padding: 1px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .mainContainer {
+        grid-column-start: 2;
+    }
+}

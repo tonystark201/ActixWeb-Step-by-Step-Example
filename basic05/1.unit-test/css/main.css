@@ -1,0 +1,44 @@
+/*.itemContainer {
+    background: #034f84;
+    margin: 0.3rem;
+}
+
+.itemContainer:hover {
+    background: #034f99;
+}
+
+.itemContainer p {
+    color: white;
+    display: inline-block;
+    margin: 0.5rem;
+    margin-right: 0.4rem;
+    margin-left: 0.4rem;
+}*/
+
+.actionButton {
+    display: inline-block;
+    float: right;
+    background: #eb990b;
+    border: none;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    text-align: center;
+    color: white;
+}
+
+.actionButton:hover {
+    background: #f29c07;
+    color: black;
+}
+
+.inputContainer {
+    background: #d2d5db;
+    margin: 0.2rem;
+    margin-top: 3rem;
+}
+
+.inputContainer input {
+    display: inline-block;
+    margin: 0.3rem;
+}

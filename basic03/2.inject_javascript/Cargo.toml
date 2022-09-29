@@ -1,0 +1,30 @@
+[package]
+name = "actixwebdemo"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4.2.1"
+actix-rt = "2.7.0"
+actix-session = {version="0.7.1",features=["cookie-session"]}
+actix-files = "0.6.2"
+actix-http = {version="3.0.4",features=["http2"]}
+log = "0.4.15"
+env_logger = "0.9.0"
+futures = "0.3.24"
+serde = {version="1.0",features=["derive"]}
+serde_json = "1.0"
+failure = "0.1.8"
+dotenv = "0.15.0"
+
+# for redis storage
+redis = "0.21.6"
+r2d2="0.8.10"
+r2d2_redis = "0.14.0"
+
+# for db storage
+uuid = { version = "1.1.2", features = ["v4"] }
+diesel = { version = "1.4.0", features = ["postgres","chrono"] }
+chrono = { version = "0.4.20", features = ["serde"] }

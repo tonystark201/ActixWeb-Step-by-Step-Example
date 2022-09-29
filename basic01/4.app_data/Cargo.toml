@@ -1,0 +1,17 @@
+[package]
+name = "actixdemo"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "3.3.3"
+actix-rt = "1.1.1"
+actix-service = "1.0.6"
+log = "0.4.15"
+env_logger = "0.9.0"
+futures = "0.3.24"
+serde = "1"
+serde_json = {version="1.0.0",default-features = false, features = ["alloc"] }
+failure = "0.1.8"

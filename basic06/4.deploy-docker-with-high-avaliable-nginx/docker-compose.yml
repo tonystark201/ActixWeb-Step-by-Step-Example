@@ -1,0 +1,142 @@
+version: '3.0'
+
+services:
+  
+  nginx1:
+    build: 
+      context: ./deploy/nginx1
+      dockerfile: dockerfile
+    restart: always
+    privileged: true
+    hostname: nginx-master
+    container_name: nginx-master
+    volumes:
+      - ./deploy/nginx1/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 9091:9090
+    depends_on:
+      - actix-app1 
+      - actix-app2
+      - actix-app3
+    networks:
+      alb_ha:
+        ipv4_address: 172.16.0.2
+        
+  nginx2:
+    build: 
+      context: ./deploy/nginx2
+      dockerfile: dockerfile
+    restart: always
+    privileged: true
+    hostname: nginx-slave
+    container_name: nginx-slave
+    volumes:
+      - ./deploy/nginx2/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 9092:9090
+    depends_on:
+      - actix-app1 
+      - actix-app2
+      - actix-app3
+    networks:
+      alb_ha:
+        ipv4_address: 172.16.0.3
+  
+  actix-app1:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: actix-app1
+    ports:
+      - "8081:8080"
+    depends_on:
+      - redis
+      - postgres
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        diesel migration run
+        echo "Migration OK"
+        cargo run --release
+    networks:
+      alb_ha:
+        ipv4_address: 172.16.0.4
+  
+  actix-app2:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: actix-app2
+    ports:
+      - "8082:8080"
+    depends_on:
+      - redis
+      - postgres
+      - actix-app1
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        cargo run --release
+    networks:
+      alb_ha:
+        ipv4_address: 172.16.0.5
+        
+  actix-app3:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: actix-app3
+    ports:
+      - "8083:8080"
+    depends_on:
+      - redis
+      - postgres
+      - actix-app1
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        cargo run --release
+    networks:
+      alb_ha:
+        ipv4_address: 172.16.0.6
+
+  
+  redis:
+    image: redis:5.0.0
+    container_name: redisdb
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      alb_ha:
+        ipv4_address: 172.16.0.7
+        
+  postgres:
+    image: postgres:latest
+    container_name: postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    ports:
+      - "15432:5432"
+    networks:
+      alb_ha:
+        ipv4_address: 172.16.0.8
+    restart: unless-stopped
+    
+volumes:
+  redis-data:
+  postgres-data:
+
+networks:
+  alb_ha:
+    ipam:
+      config:
+        - subnet: 172.16.0.0/16
