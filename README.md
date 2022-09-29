@@ -89,4 +89,20 @@
 ## Basic06
 
 + Demo1
-  + Deploy to Docker
+  + Deploy with Docker
+  + Use Docker Compose
+  
++ Demo2
+  + Deploy with Docker
+  + Use Nginx for LB
+  + Use Supervisord to manage processes
+  
++ Demo3
+  + Deploy with Docker
+  + Use Nginx for LB
+  + Use Docker Compose manage container
+  
++ Demo4
+  + Deploy with Docker
+  + Use Nginx for LB
+  + Use Keepalive for HA Nginx 

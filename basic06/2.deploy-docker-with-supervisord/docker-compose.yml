@@ -1,0 +1,59 @@
+version: '3.0'
+
+services:
+        
+  server:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx-actix-server
+    ports:
+      - "22:22"
+      - "80:80"
+      - "8081:8081"
+      - "8082:8082"
+      - "8083:8083"
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      my_db:
+        ipv4_address: 172.21.0.6
+
+  
+  redis:
+    image: redis:5.0.0
+    container_name: redisdb
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      my_db:
+        ipv4_address: 172.21.0.7
+        
+  postgres:
+    image: postgres:latest
+    container_name: postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    ports:
+      - "15432:5432"
+    networks:
+      my_db:
+        ipv4_address: 172.21.0.8
+    restart: unless-stopped
+    
+volumes:
+  redis-data:
+  postgres-data:
+
+networks:
+  my_db:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
